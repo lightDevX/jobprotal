@@ -1,6 +1,8 @@
+import { useContext } from "react";
 import Lottie from "react-lottie";
 import { Link } from "react-router";
 import registerAnimation from "../../assets/lottie/register.json";
+import AuthContext from "../../auth/context/AuthContext/AuthContext";
 
 const defaultOptions = {
   loop: true,
@@ -12,60 +14,83 @@ const defaultOptions = {
 };
 
 const Register = () => {
-  const handleRegister = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const name = form.name.value;
-    const email = form.email.value;
-    const password = form.password.value;
-    console.log("click from register", name, email, password);
+  const { createUser } = useContext(AuthContext);
+
+  const handleRegister = async (event) => {
+    event.preventDefault();
+    try {
+      const form = event.target;
+      const name = form.name.value;
+      const email = form.email.value;
+      const password = form.password.value;
+      await createUser(name, email, password);
+      alert("Registration successful!");
+      form.reset();
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
   };
 
   return (
-    <>
-      <div className="hero bg-base-200 min-h-screen">
-        <div className="hero-content flex-col gap-10 lg:flex-row-reverse">
-          <div className="text-center lg:text-left">
-            <Lottie options={defaultOptions} height={400} width={400} />
-          </div>
-          <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-            <div className="card-body">
-              <h2 className="text-2xl font-bold">Register Now!</h2>
-              <form className="fieldset" onSubmit={handleRegister}>
-                <label className="fieldset-label">Name</label>
+    <div className="hero bg-base-200 min-h-screen">
+      <div className="hero-content flex-col gap-10 lg:flex-row-reverse">
+        <div className="text-center lg:text-left">
+          <Lottie options={defaultOptions} height={400} width={400} />
+        </div>
+        <div className="card bg-base-100 w-full max-w-sm shadow-2xl">
+          <div className="card-body">
+            <h2 className="text-2xl font-bold">Register Now!</h2>
+            <form onSubmit={handleRegister}>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Name</span>
+                </label>
                 <input
                   name="name"
                   type="text"
-                  className="input"
                   placeholder="Your name"
+                  className="input input-bordered"
+                  required
                 />
-                <label className="fieldset-label">Email</label>
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Email</span>
+                </label>
                 <input
                   name="email"
                   type="email"
-                  className="input"
                   placeholder="Email"
+                  className="input input-bordered"
+                  required
                 />
-                <label className="fieldset-label">Password</label>
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Password</span>
+                </label>
                 <input
                   name="password"
                   type="password"
-                  className="input"
                   placeholder="Password"
+                  className="input input-bordered"
+                  required
                 />
-                <div>
-                  <Link to="/login" className="link link-hover">
-                    You are already register{" "}
-                    <span className="font-bold underline">Login</span>
-                  </Link>
-                </div>
-                <button className="btn btn-neutral mt-4">Register</button>
-              </form>
-            </div>
+              </div>
+              <div className="form-control mt-4">
+                <button type="submit" className="btn btn-primary">
+                  Register
+                </button>
+              </div>
+              <Link to="/login" className="mt-4 text-center text-sm">
+                Already registered?{" "}
+                <span className="link link-primary">Login here</span>
+              </Link>
+            </form>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
