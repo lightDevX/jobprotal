@@ -1,21 +1,27 @@
+import { useContext } from "react";
 import { Link } from "react-router";
+import AuthContext from "../../auth/context/AuthContext/AuthContext";
 
 const Header = () => {
+  const { user, logout } = useContext(AuthContext);
+
+  console.log(user);
+
   const navLinks = (
     <>
-      <Link className="mx-4" to="/">
+      <Link className="mx-4 text-base font-bold" to="/">
         Home
       </Link>
-      <Link className="mx-4" to="/find-a-job">
+      <Link className="mx-4 text-base font-bold" to="/find-a-job">
         Find a Job
       </Link>
-      <Link className="mx-4" to="/recruiters">
+      <Link className="mx-4 text-base font-bold" to="/recruiters">
         Recruiters
       </Link>
-      <Link className="mx-4" to="/candidates">
+      <Link className="mx-4 text-base font-bold" to="/candidates">
         Candidates
       </Link>
-      <Link className="mx-4" to="/contact">
+      <Link className="mx-4 text-base font-bold" to="/contact">
         Contact
       </Link>
     </>
@@ -48,16 +54,26 @@ const Header = () => {
               {navLinks}
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">daisyUI</a>
+          <Link className="btn btn-ghost text-xl">JobProtal</Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navLinks}</ul>
         </div>
         <div className="navbar-end gap-3.5">
-          <Link to="/register">Register</Link>
-          <Link to="/signin" className="btn bg-blue-600 text-white">
-            Sign In
-          </Link>
+          {user ? (
+            <>
+              <div className="flex items-center gap-5">
+                <p className="text-base font-bold">{user.displayName}</p>
+                <button onClick={logout} className="btn bg-red-600 text-white">
+                  Logout
+                </button>
+              </div>
+            </>
+          ) : (
+            <Link to="/login" className="btn bg-blue-600 text-white">
+              Sign In
+            </Link>
+          )}
         </div>
       </div>
     </>

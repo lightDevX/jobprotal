@@ -1,6 +1,9 @@
 import {
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
@@ -11,8 +14,63 @@ import auth from "../firebase/firebase.init";
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const googleProvider = new GoogleAuthProvider();
 
-  // Track auth state changes
+  // Email/password registration
+  const createUser = async (name, email, password) => {
+    setLoading(true);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      await updateProfile(userCredential.user, { displayName: name });
+      setUser(userCredential.user);
+      return userCredential;
+    } catch (error) {
+      throw new Error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Email/password login
+  const loginUser = async (email, password) => {
+    setLoading(true);
+    try {
+      return await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      throw new Error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Google login
+  const loginWithGoogle = async () => {
+    setLoading(true);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      return result.user;
+    } catch (error) {
+      throw new Error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Logout
+  const logout = async () => {
+    setLoading(true);
+    try {
+      await signOut(auth);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Auth state observer
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -21,51 +79,12 @@ const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  // Create user with name, email, password
-  const createUser = async (name, email, password) => {
-    setLoading(true);
-    try {
-      // 1. Create user account
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-
-      // 2. Update user profile with name
-      await updateProfile(userCredential.user, {
-        displayName: name,
-      });
-
-      // 3. Update local user state
-      setUser({ ...userCredential.user, displayName: name });
-
-      console.log(userCredential);
-
-      return userCredential;
-    } catch (error) {
-      console.error("Registration error:", error);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Logout function
-  const logout = async () => {
-    setLoading(true);
-    try {
-      return await signOut(auth);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Context value
   const authInfo = {
     user,
     loading,
     createUser,
+    loginUser,
+    loginWithGoogle,
     logout,
   };
 

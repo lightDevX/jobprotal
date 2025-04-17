@@ -4,9 +4,9 @@ import Candidates from "../../pages/Candidates/Candidates";
 import Contact from "../../pages/Contact/Contact";
 import FindAJob from "../../pages/FindAJob/FindAJob";
 import Home from "../../pages/Home/Home";
+import Login from "../../pages/Login/Login";
 import Recruiters from "../../pages/Recruiters/Recruiters";
 import Register from "../../pages/Register/Register";
-import Signin from "../../pages/Signin/Signin";
 
 const router = createBrowserRouter([
   {
@@ -22,8 +22,8 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: "/signin",
-        element: <Signin />,
+        path: "/login",
+        element: <Login />,
       },
       {
         path: "/recruiters",
