@@ -5,8 +5,6 @@ import AuthContext from "../../auth/context/AuthContext/AuthContext";
 const Header = () => {
   const { user, logout } = useContext(AuthContext);
 
-  console.log(user);
-
   const navLinks = (
     <>
       <Link className="mx-4 text-base font-bold" to="/">
