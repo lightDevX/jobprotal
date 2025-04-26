@@ -19,7 +19,7 @@ const Footer = () => {
           <p>
             Job Portal Ltd.
             <br />
-            Providing reliable tech since 1992
+            Providing reliable tech since 2017
           </p>
         </aside>
         <nav>
