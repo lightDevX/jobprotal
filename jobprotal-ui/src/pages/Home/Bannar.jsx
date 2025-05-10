@@ -21,7 +21,12 @@ const Banner = () => {
           >
             Welcome to Our Site
           </motion.h1>
-          <p className="py-6 text-lg"></p>
+          <p className="py-6 text-lg">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
+            quibusdam eius illum explicabo ex accusamus, ea, veniam harum
+            tempore aliquid vitae quis adipisci labore. Iure temporibus aliquid
+            corporis. Quos, fugiat.
+          </p>
           <button className="btn btn-primary">Get Started</button>
         </div>
       </div>
