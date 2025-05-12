@@ -19,7 +19,7 @@ const Banner = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            Welcome to Our Site
+            <span>Welcome</span> to Our Site
           </motion.h1>
           <p className="py-6">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
