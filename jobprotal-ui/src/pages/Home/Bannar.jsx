@@ -27,7 +27,7 @@ const Banner = () => {
             tempore aliquid vitae quis adipisci labore. Iure temporibus aliquid
             corporis. Quos, fugiat.
           </p>
-          <button className="btn btn-primary w-3.5">Get Started</button>
+          <button className="btn btn-primary">Get Started</button>
         </div>
       </div>
     </div>
