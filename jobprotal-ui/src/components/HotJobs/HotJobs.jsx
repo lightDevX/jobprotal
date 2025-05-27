@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 
 const HotJobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -27,7 +28,9 @@ const HotJobs = () => {
                 <h2 className="card-title">{job.title}</h2>
                 <p>{job.description}</p>
                 <div className="card-actions justify-end">
-                  <button className="btn btn-primary">Apply Now</button>
+                  <Link to={`/job-details/${job._id}`}>
+                    <button className="btn btn-primary">Apply Now</button>
+                  </Link>
                 </div>
               </div>
             </div>
